@@ -1,7 +1,7 @@
 # The Unofficial Guide — Project 1
 
 > **How to use this template:**
-> Complete each section *after* you've built and tested the corresponding part of your system.
+> Complete each section _after_ you've built and tested the corresponding part of your system.
 > Do not write placeholder text — if a section isn't done yet, leave it blank and come back.
 > Every section below is required for submission. One-liners will not receive full credit.
 
@@ -14,6 +14,9 @@
      Example: "Student reviews of CS professors at [university] — useful because official
      course descriptions don't reflect teaching style, exam difficulty, or workload." -->
 
+Domain: Activities to do at/around the University of Florida
+This knowledge is valuable cause it lets students know what kind of activities and experiences they can do in their free-time when attending the University of Florida and for who and when these activities are appropriate. Although you can find some events happening on campus through official channels, knowing all of the possible activites to do around Gainesville can be useful to know the full extent of what Gainesville has to offer. Many people consider Gainesville to just be the University of Florida, but there are a lot of different things to do on and around campus.
+
 ---
 
 ## Document Sources
@@ -22,18 +25,21 @@
      Be specific: include URLs, subreddit names, forum thread titles, or file names.
      Aim for variety — sources that together cover different subtopics or perspectives. -->
 
-| # | Source | Type | URL or file path |
-|---|--------|------|-----------------|
-| 1 | | | |
-| 2 | | | |
-| 3 | | | |
-| 4 | | | |
-| 5 | | | |
-| 6 | | | |
-| 7 | | | |
-| 8 | | | |
-| 9 | | | |
-| 10 | | | |
+| #   | Source                        | Description/Type                                                                                   | URL or location                                                                                                 |
+| --- | ----------------------------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
+| 1   | URL - The Village Gainesville | Blog providing accessible activities around Gainesville for Seniors.                               | https://thevillagegainesville.com/blog/day-trips-for-seniors/                                                   |
+| 2   | GNV Subreddit                 | Reddit post providing a list of a best of different kinds of food in Gainesville.                  | https://www.reddit.com/r/GNV/comments/1ldgqxr/best_food_and_locations_in_gainesville_2025/                      |
+| 3   | URL - The Mayfair Gainesville | Blog describing the best local food in Gainesville.                                                | https://www.themayfairgainesvillefl.com/blog/2026/gainesville-food-guide-best-local-eats-for-new-residents.html |
+| 4   | GNV Subreddit                 | Reddit post with comments for budget options for things to do around Gainesville.                  | https://www.reddit.com/r/GNV/comments/171j93p/fun_hidden_gems_in_gnv_that_are_cheapfree/                        |
+| 5   | GNV Subreddit                 | Reddit post with most budget options of activities around Gainesville.                             | https://www.reddit.com/r/GNV/comments/1etmfsi/ideas_for_fun_things_to_do_in_gainesville_that/                   |
+| 6   | URL - Stay Gainesville        | Blog prodiving options of outdoor activites to do near the University of Florida.                  | https://www.staygainesville.com/best-outdoor-things-to-do-near-uf-a-freshmans-guide                             |
+| 7   | Quora Forum                   | A Quora forum with people describing the best activities to do on the weekends as a student at UF. | https://www.quora.com/What-are-the-best-things-to-do-on-weekends-as-a-student-at-the-University-of-Florida      |
+| 8   | URL - Visit Gainesville       | Blog with Live Music and Performing Arts activities at and around UF.                              | https://www.visitgainesville.com/things-to-do/live-music-performing-arts/                                       |
+| 9   | URL/FAQ - Visit Florida       | General blog with all kinds of activities and descriptions of things to do around Gainesville.     | https://www.visitflorida.com/places-to-go/north-central/gainesville/                                            |
+| 10  | TripAdvisor Reviews           | List of indoor activities to do around the University of Florida.                                  | https://www.tripadvisor.com/Attractions-g34242-Activities-zft11295-Gainesville_Florida.html                     |
+| 11  | URL - Sweetwater Gainesville  | Blog describing things to do with your parents/the family when visiting UF.                        | https://sweetwatergainesville.com/resources/things-to-do-with-parents-uf/                                       |
+| 12  | URL - Sweetwater Inn          | Blog describing activities to do with kids around the University of Florida.                       | https://sweetwaterinn.com/blog/things-to-do-in-gainesville-fl-with-kids/                                        |
+| 13  | URL - Sweetwater Inn          | Blog describing activities to do in downtown Gainesville.                                          | https://sweetwaterinn.com/blog/gainesville-fl-downtown/                                                         |
 
 ---
 
@@ -91,13 +97,13 @@
      Be honest — a partially accurate or inaccurate result that you explain well is more
      valuable than a suspiciously perfect result. -->
 
-| # | Question | Expected answer | System response (summarized) | Retrieval quality | Response accuracy |
-|---|----------|-----------------|------------------------------|-------------------|-------------------|
-| 1 | | | | | |
-| 2 | | | | | |
-| 3 | | | | | |
-| 4 | | | | | |
-| 5 | | | | | |
+| #   | Question | Expected answer | System response (summarized) | Retrieval quality | Response accuracy |
+| --- | -------- | --------------- | ---------------------------- | ----------------- | ----------------- |
+| 1   |          |                 |                              |                   |                   |
+| 2   |          |                 |                              |                   |                   |
+| 3   |          |                 |                              |                   |                   |
+| 4   |          |                 |                              |                   |                   |
+| 5   |          |                 |                              |                   |                   |
 
 **Retrieval quality:** Relevant / Partially relevant / Off-target  
 **Response accuracy:** Accurate / Partially accurate / Inaccurate
@@ -151,12 +157,12 @@
 
 **Instance 1**
 
-- *What I gave the AI:*
-- *What it produced:*
-- *What I changed or overrode:*
+- _What I gave the AI:_
+- _What it produced:_
+- _What I changed or overrode:_
 
 **Instance 2**
 
-- *What I gave the AI:*
-- *What it produced:*
-- *What I changed or overrode:*
+- _What I gave the AI:_
+- _What it produced:_
+- _What I changed or overrode:_
