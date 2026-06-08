@@ -21,7 +21,7 @@ This knowledge is valuable cause it lets students know what kind of activities a
 <!-- List your specific sources: URLs, subreddit names, forum threads, or file descriptions.
      Aim for at least 10 sources that together cover different subtopics or perspectives within your domain. -->
 
-| #   | Source                        | Description                                                                                        | URL or location                                                                                                 |
+| #   | Source                        | Description                                                                                        | URL or Location                                                                                                 |
 | --- | ----------------------------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | 1   | URL - The Village Gainesville | Blog providing accessible activities around Gainesville for Seniors.                               | https://thevillagegainesville.com/blog/day-trips-for-seniors/                                                   |
 | 2   | GNV Subreddit                 | Reddit post providing a list of a best of different kinds of food in Gainesville.                  | https://www.reddit.com/r/GNV/comments/1ldgqxr/best_food_and_locations_in_gainesville_2025/                      |
@@ -47,10 +47,13 @@ This knowledge is valuable cause it lets students know what kind of activities a
      A review-heavy corpus warrants different chunking than a long FAQ. -->
 
 **Chunk size:**
-
+700 characters
 **Overlap:**
-
+150 characters
 **Reasoning:**
+Most of the documents are lists with small paragraph descriptions of the specific activity or kinds of activities, so I kept the chunk size moderate, so each chunk stays focused on a single activity. For the actual chunking strategy, I believe a recursive strategy would be best since sometimes many of the documents are broken up into sections of lists for the different activities with their descriptions inside these sections. It would follow the natural structure of the document for the majority of my sources.
+
+The strategy will go as follows: Paragraph breaks (\n\n) -> Line breaks (\n) -> Sentences -> Characters.
 
 ---
 
@@ -63,10 +66,19 @@ This knowledge is valuable cause it lets students know what kind of activities a
      support, accuracy on domain-specific text, latency? -->
 
 **Embedding model:**
+sentence-transformers (all-MiniLM-L6-v2) - The local embedding model we are using for class since it runs locally with no rate limits.
 
+For structuring my embeddings, I will do one embedding per chunk, the standard. Then, to account for the structure of most of my sources, I will prepend the section or source context to the chunk before embedding.
 **Top-k:**
-
+k = 5
+I will retrieve the top 5 chunks since my chunk sizes are small to medium size and will carry less information. This will let me get the activity and the context of those activities across multiple chunks.
 **Production tradeoff reflection:**
+If deploying a RAG system regarding activities to do around UF for real users without a cost constraint, here are tradeoffs I would consider:
+
+- Context Length: Considering most of the information comes in smaller chunks as it is short descriptions of activities to do around UF, I would lean towards a smaller, lightweight model, such as all-MiniLM-L6-v2, as the chunks would be nowhere near the maximum context window. Context length would not be a limiting factor.
+- Multilingual Support: For the scope of this kind of project, I would lean towards a single language English model since it would most likely be accessible to the majority of students at UF. However, taking into account the large number of international students at UF, without a cost constraint, a multilingual model would further my accessibility. International students would be most likely to query in another language, so it could be something to factor in if I want to maximize the RAG system's reach.
+- Accuracy on domain-specific text: Although the activities themselves, such as food, hikes, etc., might not be super specific or technical, many of the locations around Gainesville can have local place names. Also, posts from students can use local slang or informal talk, so a larger model, such as OpenAI text-embedding-3-large, would be considered to ensure any casual query can match a hyper specific location. For this particular situation, MiniLM is most likely sufficient, but a larger model could guarantee better coverage.
+- Latency: For these kinds of queries, we would like faster processing times to quickly provide information on the activities in Gainvesville, so a lightweight and fast model like we are using is preferred.
 
 ---
 
@@ -77,13 +89,13 @@ This knowledge is valuable cause it lets students know what kind of activities a
      is right or wrong. "What are good dining halls?" is too vague.
      "What do students say about wait times at [dining hall name] during lunch?" is testable. -->
 
-| #   | Question | Expected answer |
-| --- | -------- | --------------- |
-| 1   |          |                 |
-| 2   |          |                 |
-| 3   |          |                 |
-| 4   |          |                 |
-| 5   |          |                 |
+| #   | Question                                                   | Expected answer                                                                                               | Source(s) supportring answer    |
+| --- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| 1   | What are some free or cheap things to do in Gainesville    | The Harn Museum, Springs (Poe Springs), Hawthorne Trails, Theater of Memory (Many other options from sources) | GNV Subreddit                   |
+| 2   | Are there any outdoor activities within 2 miles of campus? | Depot Park, Gainesville-Hawthorne State Trail                                                                 | Stay Gainesville                |
+| 3   | Is the Cade Museum a good place for kids?                  | Yes, you can take your kids to the Cade Museum for kids to learn through interactive exhibits.                | Sweet Water Inn & Visit Florida |
+| 4   | Is there a place to see Broadway performances around UF?   | Yes at the Curtis C. Phillips Center for the Performing Arts                                                  | Visit Gainesville               |
+| 5   | Can I walk to the beach from campus?                       | No, the nearest beach is 75 miles. It would be a day trip destination.                                        | Visit Florida                   |
 
 ---
 
@@ -93,9 +105,11 @@ This knowledge is valuable cause it lets students know what kind of activities a
      Consider: noisy or inconsistent documents, missing source attribution, off-topic
      retrieval, chunks that split key information across boundaries. -->
 
-1.
+1. One challenge would be ensuring each chunk keeps the context of the activity. As some of these lists of items can be long, if the chunk doesn't have context of what kind of activity or place a certain location is, then the RAG system will not be able to effectively answer the question. If a chunk is missing the context for an activity, then the system might hallucinate or give a useless answer. To solve this, I will need to make sure I set up the system to store some context for each activity in its chunk, such as by storing metadata or prepending a section heading to a chunk.
 
-2.
+2. Another challenge would be accounting for cross-chunk context splitting. Although many of my sources are blogs with distinct sections and focus, I do have more disorganized sources like Reddit Posts and Tripadvisors reviews that are not quite structured the same way as the blogs. For example, the context for some answers or the completeness of answer might be split between posts, comments, or sources. In these scenerios, outside of just adding the URL or maybe the title of the Reddit post into the metadata, it might be hard to prepend a section header to a chunk to keep context. On top of that, k=5 might not be enough to complete an answer for certain queries that are more open ended, such as when asking for cheap or free things to do in Gainesville.
+
+3. One last potential challenge has to do with source reliability and conflicting information. With my specific domain of activities to do around Gainesville, although some queries can be fact, such as if a specific activity is located on or off-campus, others are more subjective. One of the blogs might consider a certain activity to be cheap for example, while a Reddit post might say that it is overpriced causing a disagreement. This makes source attribution into chunks even more important in the case of my RAG system, along with providing citations for the user to know where these opinions are coming from.
 
 ---
 
@@ -106,6 +120,8 @@ This knowledge is valuable cause it lets students know what kind of activities a
      Label each stage with the tool or library you're using.
      You can use ASCII art, a Mermaid diagram, or embed a sketch as an image.
      You'll use this diagram as context when prompting AI tools to implement each stage. -->
+
+     ![RAG Planning Pipeline](RAG-Planning-Pipeline.png)
 
 ---
 
@@ -123,6 +139,49 @@ This knowledge is valuable cause it lets students know what kind of activities a
 
 **Milestone 3 — Ingestion and chunking:**
 
+1. Ingestion and Chunking
+   A. AI tool to use: Claude, Google/Gemini
+
+   B. Input
+   - Google/Gemini: Used for research on potential libraries and processes for scraping and preparing my sources for chunking.
+   - Claude: Will provide the location of my documents (whether it be the markdowns for the blogs I make manually or the URLs for Reddit and Tripadvisor), chunking strategy, and the document ingestion and chunking sections of my RAG pipeline plan to Claude. I will use it to produce a script to load my documents, clean them, and then chunk the text. The RAG pipeline plan will have recommended libraries to use.
+
+   C. Expected Output
+   - I expect it to produce separate functions for properly web scraping Reddit and Tripadvisor (require different strategies), a function for loading the documents, and a final function for chunking text .
+
+   D. Verifying Output
+   - I will print one of each type of document (blog, Reddit, Tripadvisor) to make sure it was properly scraped and/or cleaned of any nav text, HTML, etc.
+   - I will print out 5 random chunks to make sure they are readable, have around the expected character count with overlap while also respecting document structure.
+   - I will also check that each chunk has proper section-heading and/or source prepending.
+
 **Milestone 4 — Embedding and retrieval:**
 
+2. Embedding and Retrieval
+   A. AI tool to use: Claude
+
+   B. Input
+   - I will provide the retrieval approach with the embedding model and top-k to Claude, along with the embedding, vector store, and retrieval sections of my RAG pipeline plan to Claude. This contains information for the embedding model I want to use, what vector storage to use, and the tools and setup for retrieval.
+
+   C. Expected Output
+   - I expect it to connect the vector storage client (ChromaDB), produce a function to get the collection from ChromaDB, produce a function to embed the chunks and store them in ChromaDb, and finally produce a retrieval function to find the top-k most relevant chunks to a user's query.
+
+   D. Verifying Output
+   - I will verify the embedding and retrieval by asking my evaluation questions and printing the top-k chunks. I will check their relevant scores and what the chunks actually look like and say. I will also make sure the top chunk is the most relevant (has the lowest score) and actually appears in the top-k results.
+   - I will also check to see the chunks were embedded with the user query using the same model.
+
 **Milestone 5 — Generation and interface:**
+
+3. Generation and Interface
+   A. AI tool to use: Claude
+
+   B. Input
+   - I will provide the generation section of my RAG pipeline plan that will provide the LLM I want the pipeline to use to create an answer. I will also provide a simple mock-up for what I want the UI for this system to look like (a simple single page chatbot with UF colors that the user can query with suggested sample queries on the side).
+
+   C. Expected Output
+   - I expect it to produce a function to generate a response to a user's query using the LLM provided from the retrieved context with citations.
+   - I expect the function to not provide an answer to a user's query if the query is outside the corpus.
+   - I also expect it to generate a simple UI using Gradio that a user can interact with.
+
+   D. Verifying Output
+   - I will verify the output by both querying in the interface and the console that the system answers strictly from the provided chunks using my evaluation questions. I will make sure the answers to the evaluation question are valid and that they come from the sources that system should be citing for the user.
+   - I will also perform a negative test to make sure the system declines to answer queries that are outside the scope of the provided sources/it cannot find a direct answer to.

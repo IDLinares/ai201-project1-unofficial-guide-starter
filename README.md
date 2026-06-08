@@ -25,7 +25,7 @@ This knowledge is valuable cause it lets students know what kind of activities a
      Be specific: include URLs, subreddit names, forum thread titles, or file names.
      Aim for variety — sources that together cover different subtopics or perspectives. -->
 
-| #   | Source                        | Description/Type                                                                                   | URL or location                                                                                                 |
+| #   | Source                        | Description/Type                                                                                   | URL or Location                                                                                                 |
 | --- | ----------------------------- | -------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- |
 | 1   | URL - The Village Gainesville | Blog providing accessible activities around Gainesville for Seniors.                               | https://thevillagegainesville.com/blog/day-trips-for-seniors/                                                   |
 | 2   | GNV Subreddit                 | Reddit post providing a list of a best of different kinds of food in Gainesville.                  | https://www.reddit.com/r/GNV/comments/1ldgqxr/best_food_and_locations_in_gainesville_2025/                      |
