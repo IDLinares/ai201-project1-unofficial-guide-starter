@@ -18,4 +18,4 @@ CHROMA_PATH = "./chroma_db"
 N_RESULTS = 5
 
 # --- Documents ---
-DOCS_PATH = "./docs"
+DOCS_PATH = "./docs-clean"
