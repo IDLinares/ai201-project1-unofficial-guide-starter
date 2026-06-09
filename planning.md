@@ -12,6 +12,7 @@
 <!-- What domain did you choose? Why is this knowledge valuable and hard to find through official channels? -->
 
 Domain: Activities to do at/around the University of Florida
+
 This knowledge is valuable cause it lets students know what kind of activities and experiences they can do in their free-time when attending the University of Florida and for who and when these activities are appropriate. Although you can find some events happening on campus through official channels, knowing all of the possible activites to do around Gainesville can be useful to know the full extent of what Gainesville has to offer. Many people consider Gainesville to just be the University of Florida, but there are a lot of different things to do on and around campus.
 
 ---
@@ -46,12 +47,19 @@ This knowledge is valuable cause it lets students know what kind of activities a
      A review-heavy corpus warrants different chunking than a long FAQ. -->
 
 **Chunk size:**
+
 First test: 700 characters
+
 Final decision: 600 characters
+
 **Overlap:**
+
 First test: 150 characters
+
 Final decision: 100 characters
+
 **Reasoning:**
+
 Most of the documents are lists with small paragraph descriptions of the specific activity or kinds of activities, so I kept the chunk size moderate, so each chunk stays focused on a single activity. I added a small overlap for some of the longer descriptions and FAQS in the blogs just in case and to follow the standard 10-20% rule for overlap. For the actual chunking strategy, I believe a recursive strategy would be best since many of the documents are broken up into sections of lists for the different activities with their descriptions inside these sections. It would follow the natural structure of the document for the majority of my sources.
 
 After an initial test, I decided to drop the chunk count just a little more. Most of the chunks had just a bit too much information than necessary since the descriptions under most headers across Reddit posts and blogs were a bit more brief than 700 characters. To match queries a bit more specifically, I dropped the chunk size 100 characters and the overlap by 50 to keep a 10-20% overlap of the chunk size.
@@ -69,13 +77,19 @@ The strategy will go as follows: Paragraph breaks (\n\n) -> Line breaks (\n) -> 
      support, accuracy on domain-specific text, latency? -->
 
 **Embedding model:**
+
 sentence-transformers (all-MiniLM-L6-v2) - The local embedding model we are using for class since it runs locally with no rate limits.
 
 For structuring my embeddings, I will do one embedding per chunk, the standard. Then, to account for the structure of most of my sources, I will prepend the section and source context to the chunk before embedding.
+
 **Top-k:**
+
 k = 5
+
 I will retrieve the top 5 chunks since my chunk sizes are small to medium size and will carry less information. This will let me get multiple activities when necessary and the context of those activities across multiple chunks.
+
 **Production tradeoff reflection:**
+
 If deploying a RAG system regarding activities to do around UF for real users without a cost constraint, here are tradeoffs I would consider:
 
 - Context Length: Considering most of the information comes in smaller chunks as it is short descriptions of activities to do around UF, I would lean towards a smaller, lightweight model, such as all-MiniLM-L6-v2, as the chunks would be nowhere near the maximum context window. Context length would not be a limiting factor.
