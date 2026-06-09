@@ -124,7 +124,7 @@ If deploying a RAG system regarding activities to do around UF for real users wi
      You can use ASCII art, a Mermaid diagram, or embed a sketch as an image.
      You'll use this diagram as context when prompting AI tools to implement each stage. -->
 
-     ![RAG Planning Pipeline](<./RAG-Planning-Pipeline.png>)
+![RAG Planning Pipeline](./references/RAG-Planning-Pipeline.png)
 
 ---
 
@@ -192,3 +192,22 @@ If deploying a RAG system regarding activities to do around UF for real users wi
 ## Stretch Features
 
 ### Conversational Memory
+
+A. AI tool to use: Gemini and Claude
+
+- Researched ways to add conversation history to a RAG system with Gemini and created an outline for implementation.
+- Pair programmed the outline with Claude.
+
+B. Input
+
+- I passed the outline I made with Gemini to Claude, so it knew what files to change and how to implement it. The outline included what new files to make and what functions to update.
+- I also specified for the small scope of this project we would go with a very conservative approach of just concatenating the last few turns and passing that into the retrieval query as plain text for context, as opposed to doing a full query rewriting based on past context. For a more robust system, query rewriting would probably be preferred, but I did not want the system to change my queries for testing.
+
+C. Expected Output
+
+- I expected it to create a new memory.py file that would extract the plain text for Gradio and build a new retrieval query function that prepends that query history to the current query.
+- I also expect it to update the generate_response() function with a new history:list parameter so that it has it as context for generating a response.
+
+D. Verifying Output
+
+- I will do follow-up queries after a main query without the original context to see if I get an out of scope error or if the system can properly answer based on the conversation history.

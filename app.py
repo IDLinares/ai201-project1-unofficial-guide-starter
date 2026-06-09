@@ -115,7 +115,7 @@ with gr.Blocks(
                         <li>🎯 La Tienda</li>
                         <li>🦇 UF Bat Houses</li>
                         <li>🌲 Depot Park</li>
-                        <li>🎮 Arcade Bar</li>
+                        <li>🎮 Barcade</li>
                         <li>🦋 Butterfly Rainforest</li>
                         <li>👟 La Chua Trail</li>
                     </ul>
