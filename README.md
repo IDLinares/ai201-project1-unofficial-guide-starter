@@ -47,10 +47,15 @@ This knowledge is valuable cause it lets students know what kind of activities a
      - What your final chunk count was across all documents -->
 
 **Chunk size:**
+
 600 characters
+
 **Overlap:**
+
 100 characters
+
 **Why these choices fit your documents:**
+
 Most of the documents are lists with small paragraph descriptions of the specific activity or kinds of activities, so I kept the chunk size moderate, so each chunk stays focused on a single activity. I added a small overlap for some of the longer descriptions and FAQS in the blogs just in case and to follow the standard 10-20% rule for overlap. For the actual chunking strategy, I believe a recursive strategy would be best since sometimes many of the documents are broken up into sections of lists for the different activities with their descriptions inside these sections. It would follow the natural structure of the document for the majority of my sources.
 
 For most of the sources, I needed to clean the texts to remove extra URLS, decode "&amps", and especially remove any promotional sections for blogs, such as promoting a stay at a certain hotel as that introduces bias not relevant to my domain. I also standardized the headers since I am using a recursive structure and the headers are important to the context of much of the information.
@@ -141,13 +146,18 @@ Located off SW 13th Street, this market and cafe offers affordable Korean and Ja
      latency, and local vs. API-hosted. -->
 
 **Model used:**
+
 sentence-transformers (all-MiniLM-L6-v2) - The local embedding model we are using for class since it runs locally with no rate limits.
 
 For structuring my embeddings, I will do one embedding per chunk, the standard. Then, to account for the structure of most of my sources, I will prepend the section or source context to the chunk before embedding.
 **Top-k:**
+
 Retrieval: ChromaDB similarity query, k=5
+
 I will retrieve the top 5 chunks since my chunk sizes are small to medium size and will carry less information. This will let me get multiple activities when necessary and the context of those activities across multiple chunks.
+
 **Production tradeoff reflection:**
+
 If deploying a RAG system regarding activities to do around UF for real users without a cost constraint, here are tradeoffs I would consider:
 
 - Context Length: Considering most of the information comes in smaller chunks as it is short descriptions of activities to do around UF, I would lean towards a smaller, lightweight model, such as all-MiniLM-L6-v2, as the chunks would be nowhere near the maximum context window. Context length would not be a limiting factor.
@@ -482,6 +492,7 @@ Hydrate and time your outings. Early morning or pre-sunset is best in late summe
      the mechanism. -->
 
 **System prompt grounding instruction:**
+
 System Prompt:
 
 ```
@@ -504,7 +515,9 @@ Rules you must always follow:
 ```
 
 In regards to the actual context passed in, if any chunks with a distance threshold > 1 were fetched, they were removed as those were more than likely irrelvant. All chunks were passed into the LLM with the document title and nearest section heading for that particular chunk to ensure the LLM had all relevant context to generate an answer. There were embedded with the chunk so it was easy to pass to the LLM.
+
 **How source attribution is surfaced in the response:**
+
 A list of document titles for the sources is provided underneath the response so the user can go verify those pages for those claims.
 
 ---
@@ -537,9 +550,13 @@ A list of document titles for the sources is provided underneath the response so
 | 4   | Is there a place to see Broadway performances around UF?   | Yes at the Curtis C. Phillips Center for the Performing Arts and Hippodrome Theater                           | Curtis C. Phillips Center for Performing Arts, Hippodrome Theater, and Constans | Relevant          | Accurate           |
 | 5   | Can I walk to the beach from campus?                       | No, the nearest beach is 75 miles. It would be a day trip destination.                                        | Provided context does not mention a beach.                                      | Off-target        | Inaccurate         |
 
+
 **Retrieval quality:** Relevant / Partially relevant / Off-target  
+
 **Response accuracy:** Accurate / Partially accurate / Inaccurate
+
 For question 2, the answer it provided is correct and technically accurate, but it did not provide all of the possible options, as it cannot with k=5. All possible activities will be spread across too many chunks with my currently chosen top-k, but that would most likely dilute other answers if I increase the top-k.
+
 For some queries, it will state a chunk ID which is not really useful to the user. This could probably be fixed with a more strict system prompt for grounding.
 
 ## Failure Case Analysis
@@ -556,14 +573,21 @@ For some queries, it will state a chunk ID which is not really useful to the use
      results from an unrelated review" is an explanation. -->
 
 **Question that failed:**
+
 Can I walk to the beach from campus?
+
 **What the system returned:**
+
 The provided context does not mention walking to a beach from campus. It discusses on-campus spots, hidden gardens, and nearby trails, but does not mention a beach.
+
 **Root cause (tied to a specific pipeline stage):**
+
 This is a retrieval failure. The answer exists in the sources (places-to-go-gainesville.md), but the query phrasing prevents the right chunk from being fetched. The source mentions Gainesville not the campus specifically, so the right chunk is never fetched even though it mentions the beach.
 
 The top k=5 chunks it receives all have the word campus or focus on the campus itself, as that word is found in the query. The returned chunks talk about Lake Alice and campus trails rather than the beach.
+
 **What you would change to fix it:**
+
 There is a semantic gap between campus and Gainesville that the model cannot infer without external knowledge. In a real deployment there might need to be query rewriting or expansion to automatically add a Gainesville, FL tag to any campus-centric queries since anything around the campus is going to be in Gainesville.
 
 ---
@@ -574,8 +598,11 @@ There is a semantic gap between campus and Gainesville that the model cannot inf
      Answer both questions with at least 2–3 sentences each. -->
 
 **One way the spec helped you during implementation:**
+
 The spec gave me a thorough outline of the steps I would need to follow to fully implement a RAG pipeline. It helped me divide out the steps, so I could pair program with Claude on each section one at a time, keeping my token usage low and focus specific. This deepend my understanding of each individual part of the RAG pipeline.
+
 **One way your implementation diverged from the spec, and why:**
+
 Initially, I thought I would need larger chunks to hold the context of a large list since without the subheadings or section titles, a bulleted list wouldn't have the right context to answer a question. This would have been a fixed chunking strategy, but after reviewing my sources more thoroughly, I realized a recursive strategy would be more effective for following the structure and keeping the context of the chunks intact.
 
 ---
