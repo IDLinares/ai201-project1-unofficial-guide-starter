@@ -1,4 +1,4 @@
-# Gainesville
+# Gainesville - Place To Go
 
 One of the top college towns in the country, Gainesville, located in North Central Florida an hour southwest of Jacksonville, is home to the University of Florida and the Florida Gators. In addition to the excitement of college sports, Gainesville offers outstanding art galleries and cultural centers, abundant outdoor recreation opportunities, plenty of places to shop, and a diverse culinary scene sure to please everyone from foodies to young families.
 

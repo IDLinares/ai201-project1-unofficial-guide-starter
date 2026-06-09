@@ -1,4 +1,4 @@
-# Gainesville
+# Gainesville - Place To Go
 
 One of the top college towns in the country, [Gainesville](https://www.visitgainesville.com/), located in [North Central Florida](https://www.visitflorida.com/places-to-go/north-central/) an hour southwest of [Jacksonville](https://www.visitflorida.com/places-to-go/northeast/jacksonville/), is home to the [University of Florida](https://www.visitflorida.com/travel-ideas/articles/florida-tours-campus-attractions-university-of-florida/) and the [Florida Gators](https://floridagators.com/sports/football). In addition to the excitement of [college sports](https://floridagators.com/), Gainesville offers outstanding [art galleries](https://www.visitgainesville.com/explore/category/art-galleries/) and [cultural centers](https://www.visitgainesville.com/things-to-do/museums-galleries-and-art-walks/), abundant [outdoor recreation](https://www.visitgainesville.com/explore/get-outdoors/) opportunities, plenty of [places to shop](https://www.visitgainesville.com/things-to-do/shopping/), and a diverse [culinary scene](https://www.visitgainesville.com/dine/) sure to please everyone from foodies to young families.
 
