@@ -77,8 +77,17 @@ The strategy will go as follows: Paragraph breaks (\n\n) -> Line breaks (\n) -> 
      latency, and local vs. API-hosted. -->
 
 **Model used:**
+sentence-transformers (all-MiniLM-L6-v2) - The local embedding model we are using for class since it runs locally with no rate limits.
 
+For structuring my embeddings, I will do one embedding per chunk, the standard. Then, to account for the structure of most of my sources, I will prepend the section or source context to the chunk before embedding.
 **Production tradeoff reflection:**
+If deploying a RAG system regarding activities to do around UF for real users without a cost constraint, here are tradeoffs I would consider:
+
+- Context Length: Considering most of the information comes in smaller chunks as it is short descriptions of activities to do around UF, I would lean towards a smaller, lightweight model, such as all-MiniLM-L6-v2, as the chunks would be nowhere near the maximum context window. Context length would not be a limiting factor.
+- Multilingual Support: For the scope of this kind of project, I would lean towards a single language English model since it would most likely be accessible to the majority of students at UF. However, taking into account the large number of international students at UF, without a cost constraint, a multilingual model would further my accessibility. International students would be most likely to query in another language, so it could be something to factor in if I want to maximize the RAG system's reach.
+- Accuracy on domain-specific text: Although the activities themselves, such as food, hikes, etc., might not be super specific or technical, many of the locations around Gainesville can have local place names. Also, posts from students can use local slang or informal talk, so a larger model, such as OpenAI text-embedding-3-large, would be considered to ensure any casual query can match a hyper specific location. For this particular situation, MiniLM is most likely sufficient, but a larger model could guarantee better coverage.
+- Latency: For these kinds of queries, we would like faster processing times to quickly provide information on the activities in Gainvesville, so a lightweight and fast model like we are using is preferred.
+- Local vs API-hosted: Even without a cost-constraint, this is a very small and domain specific RAG system, so a local model would still suffice. Context windows would not need to be very large and no super demanding computations would be required to answer the majority of queries, so they should still answer relatively quicky. An API-hosted model could be considered only in the case if it is needed to understand specific local slang and location data.
 
 ---
 

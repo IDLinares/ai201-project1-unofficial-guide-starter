@@ -71,7 +71,7 @@ The strategy will go as follows: Paragraph breaks (\n\n) -> Line breaks (\n) -> 
 **Embedding model:**
 sentence-transformers (all-MiniLM-L6-v2) - The local embedding model we are using for class since it runs locally with no rate limits.
 
-For structuring my embeddings, I will do one embedding per chunk, the standard. Then, to account for the structure of most of my sources, I will prepend the section or source context to the chunk before embedding.
+For structuring my embeddings, I will do one embedding per chunk, the standard. Then, to account for the structure of most of my sources, I will prepend the section and source context to the chunk before embedding.
 **Top-k:**
 k = 5
 I will retrieve the top 5 chunks since my chunk sizes are small to medium size and will carry less information. This will let me get the activity and the context of those activities across multiple chunks.
@@ -124,7 +124,7 @@ If deploying a RAG system regarding activities to do around UF for real users wi
      You can use ASCII art, a Mermaid diagram, or embed a sketch as an image.
      You'll use this diagram as context when prompting AI tools to implement each stage. -->
 
-     ![RAG Planning Pipeline](RAG-Planning-Pipeline.png)
+     ![RAG Planning Pipeline](<./RAG-Planning-Pipeline.png>)
 
 ---
 

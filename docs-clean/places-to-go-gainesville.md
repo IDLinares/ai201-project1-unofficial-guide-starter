@@ -107,6 +107,7 @@ Choose from a wide variety of accommodations, including charming bed and breakfa
 - Vacation rentals
 - RV parks and campgrounds
 
+## FREQUENTLY ASKED QUESTIONS ABOUT GAINESVILLE
 
 Q. Where is Gainesville?
 
