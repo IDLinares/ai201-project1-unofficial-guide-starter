@@ -2,6 +2,7 @@ import gradio as gr
 from ingest import load_documents, chunk_text
 from retriever import embed_and_store, retrieve, get_collection
 from generator import generate_response
+from memory import build_retrieval_query
 
 # ---------------------------------------------------------------------------
 # Ingestion — runs once on startup
@@ -44,8 +45,9 @@ def run_ingestion():
 def chat(message, history):
     if not message.strip():
         return ""
-    retrieved = retrieve(message)
-    return generate_response(message, retrieved)
+    retrieval_query = build_retrieval_query(message, history)
+    retrieved = retrieve(retrieval_query)
+    return generate_response(message, retrieved, history)
 
 # ---------------------------------------------------------------------------
 # Gradio UI
@@ -94,8 +96,7 @@ with gr.Blocks(
                     "Are there any places for seniors in Gainesville?",
                     "What are some local pizza spots around UF?",
                     "What kind of activities are in Downtown Gainesville?",
-                    "Are there any places for kids around UF?",
-                    "What are some budget friendly restaurants around Gainesville?",
+                    "Are there any places for kids around UF?"
                 ],
                 cache_examples=False,
             )

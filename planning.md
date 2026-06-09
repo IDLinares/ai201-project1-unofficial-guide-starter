@@ -28,7 +28,7 @@ This knowledge is valuable cause it lets students know what kind of activities a
 | 3   | URL - The Mayfair Gainesville | Blog describing the best local food in Gainesville.                                            | https://www.themayfairgainesvillefl.com/blog/2026/gainesville-food-guide-best-local-eats-for-new-residents.html |
 | 4   | GNV Subreddit                 | Reddit post with comments for budget options for things to do around Gainesville.              | https://www.reddit.com/r/GNV/comments/171j93p/fun_hidden_gems_in_gnv_that_are_cheapfree/                        |
 | 5   | GNV Subreddit                 | Reddit post with most budget options of activities around Gainesville.                         | https://www.reddit.com/r/GNV/comments/1etmfsi/ideas_for_fun_things_to_do_in_gainesville_that/                   |
-| 6   | URL - Stay Gainesville        | Blog prodiving options of outdoor activites to do near the University of Florida.              | https://www.staygainesville.com/best-outdoor-things-to-do-near-uf-a-freshmans-guide                             |
+| 6   | URL - Stay Gainesville        | Blog providing options of outdoor activites to do near the University of Florida.              | https://www.staygainesville.com/best-outdoor-things-to-do-near-uf-a-freshmans-guide                             |
 | 7   | URL - Visit Gainesville       | Blog with Live Music and Performing Arts activities at and around UF.                          | https://www.visitgainesville.com/things-to-do/live-music-performing-arts/                                       |
 | 8   | URL/FAQ - Visit Florida       | General blog with all kinds of activities and descriptions of things to do around Gainesville. | https://www.visitflorida.com/places-to-go/north-central/gainesville/                                            |
 | 9   | TripAdvisor Reviews           | List of indoor activities to do around the University of Florida.                              | https://www.tripadvisor.com/Attractions-g34242-Activities-zft11295-Gainesville_Florida.html                     |
@@ -52,11 +52,11 @@ Final decision: 600 characters
 First test: 150 characters
 Final decision: 100 characters
 **Reasoning:**
-Most of the documents are lists with small paragraph descriptions of the specific activity or kinds of activities, so I kept the chunk size moderate, so each chunk stays focused on a single activity. I added a small overlap for some of the longer descriptions and FAQS in the blogs just in case and to follow the standard 10-20% rule for overlap. For the actual chunking strategy, I believe a recursive strategy would be best since sometimes many of the documents are broken up into sections of lists for the different activities with their descriptions inside these sections. It would follow the natural structure of the document for the majority of my sources.
+Most of the documents are lists with small paragraph descriptions of the specific activity or kinds of activities, so I kept the chunk size moderate, so each chunk stays focused on a single activity. I added a small overlap for some of the longer descriptions and FAQS in the blogs just in case and to follow the standard 10-20% rule for overlap. For the actual chunking strategy, I believe a recursive strategy would be best since many of the documents are broken up into sections of lists for the different activities with their descriptions inside these sections. It would follow the natural structure of the document for the majority of my sources.
 
 After an initial test, I decided to drop the chunk count just a little more. Most of the chunks had just a bit too much information than necessary since the descriptions under most headers across Reddit posts and blogs were a bit more brief than 700 characters. To match queries a bit more specifically, I dropped the chunk size 100 characters and the overlap by 50 to keep a 10-20% overlap of the chunk size.
 
-The strategy will go as follows: Paragraph breaks (\n\n) -> Line breaks (\n) -> Sentences -> Characters.
+The strategy will go as follows: Paragraph breaks (\n\n) -> Line breaks (\n) -> Sentences -> Characters. I chose this over other options as this would best keep chunks self contained to one specific topic or context across many list heavy sources.
 
 ---
 
@@ -74,7 +74,7 @@ sentence-transformers (all-MiniLM-L6-v2) - The local embedding model we are usin
 For structuring my embeddings, I will do one embedding per chunk, the standard. Then, to account for the structure of most of my sources, I will prepend the section and source context to the chunk before embedding.
 **Top-k:**
 k = 5
-I will retrieve the top 5 chunks since my chunk sizes are small to medium size and will carry less information. This will let me get the activity and the context of those activities across multiple chunks.
+I will retrieve the top 5 chunks since my chunk sizes are small to medium size and will carry less information. This will let me get multiple activities when necessary and the context of those activities across multiple chunks.
 **Production tradeoff reflection:**
 If deploying a RAG system regarding activities to do around UF for real users without a cost constraint, here are tradeoffs I would consider:
 
@@ -92,13 +92,13 @@ If deploying a RAG system regarding activities to do around UF for real users wi
      is right or wrong. "What are good dining halls?" is too vague.
      "What do students say about wait times at [dining hall name] during lunch?" is testable. -->
 
-| #   | Question                                                   | Expected answer                                                                                               | Source(s) supportring answer    |
-| --- | ---------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------- | ------------------------------- |
-| 1   | What are some free or cheap things to do in Gainesville    | The Harn Museum, Springs (Poe Springs), Hawthorne Trails, Theater of Memory (Many other options from sources) | GNV Subreddit                   |
-| 2   | Are there any outdoor activities within 2 miles of campus? | Depot Park, Gainesville-Hawthorne State Trail                                                                 | Stay Gainesville                |
-| 3   | Is the Cade Museum a good place for kids?                  | Yes, you can take your kids to the Cade Museum for kids to learn through interactive exhibits.                | Sweet Water Inn & Visit Florida |
-| 4   | Is there a place to see Broadway performances around UF?   | Yes at the Curtis C. Phillips Center for the Performing Arts                                                  | Visit Gainesville               |
-| 5   | Can I walk to the beach from campus?                       | No, the nearest beach is 75 miles. It would be a day trip destination.                                        | Visit Florida                   |
+| #   | Question                                                   | Expected answer                                                                                                 | Source(s) supportring answer    |
+| --- | ---------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------- | ------------------------------- |
+| 1   | What are some free or cheap things to do in Gainesville?   | The Harn Museum, Springs (Poe Springs), Hawthorne Trails, Theater of Memory (Many other options from sources)   | GNV Subreddit                   |
+| 2   | Are there any outdoor activities within 2 miles of campus? | Lake Alice, UF Bat Houses, Wilmot Botanical Gardens, Harn Museum, Depot Park, Gainesville-Hawthorne State Trail | Stay Gainesville                |
+| 3   | Is the Cade Museum a good place for kids?                  | Yes, you can take your kids to the Cade Museum for kids to learn through interactive exhibits.                  | Sweet Water Inn & Visit Florida |
+| 4   | Is there a place to see Broadway performances around UF?   | Yes at the Curtis C. Phillips Center for the Performing Arts and Constans Theater                               | Visit Gainesville               |
+| 5   | Can I walk to the beach from campus?                       | No, the nearest beach is 75 miles. It would be a day trip destination.                                          | Visit Florida                   |
 
 ---
 
@@ -188,3 +188,7 @@ If deploying a RAG system regarding activities to do around UF for real users wi
    D. Verifying Output
    - I will verify the output by both querying in the interface and the console that the system answers strictly from the provided chunks using my evaluation questions. I will make sure the answers to the evaluation question are valid and that they come from the sources that system should be citing for the user.
    - I will also perform a negative test to make sure the system declines to answer queries that are outside the scope of the provided sources/it cannot find a direct answer to.
+
+## Stretch Features
+
+### Conversational Memory

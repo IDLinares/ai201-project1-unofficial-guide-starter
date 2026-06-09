@@ -34,14 +34,20 @@ Rules you must always follow:
 """
 
 
-def generate_response(query: str, retrieved_chunks: list[dict]) -> str:
+def generate_response(query: str, retrieved_chunks: list[dict],
+                      history: list = None) -> str:
     """
     Generate a grounded answer to *query* using *retrieved_chunks* as context.
 
     Chunks whose cosine distance exceeds DISTANCE_THRESHOLD are dropped before
     the context is built. Returns _NO_CONTEXT_FALLBACK if nothing passes the
     threshold (empty collection or all chunks are noise).
+
+    Pass *history* (Gradio's [[user_msg, assistant_msg], ...] format) to inject
+    prior conversation turns so the LLM can resolve follow-up questions.
     """
+    from memory import format_history_for_llm
+
     relevant = [c for c in retrieved_chunks if c["distance"] <= DISTANCE_THRESHOLD]
     if not relevant:
         return _NO_CONTEXT_FALLBACK
@@ -58,12 +64,14 @@ def generate_response(query: str, retrieved_chunks: list[dict]) -> str:
 
     user_message = f"Context:\n{context}\n\nQuestion: {query}"
 
+    messages = [{"role": "system", "content": _SYSTEM_PROMPT}]
+    if history:
+        messages.extend(format_history_for_llm(history))
+    messages.append({"role": "user", "content": user_message})
+
     response = _client.chat.completions.create(
         model=LLM_MODEL,
-        messages=[
-            {"role": "system", "content": _SYSTEM_PROMPT},
-            {"role": "user", "content": user_message},
-        ],
+        messages=messages,
     )
     return response.choices[0].message.content.strip()
 
